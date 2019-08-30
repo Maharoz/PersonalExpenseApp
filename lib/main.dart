@@ -28,7 +28,9 @@ class MyApp extends StatelessWidget {
                     fontFamily: 'OpenSans',
                     fontSize: 20,
                     fontWeight: FontWeight.bold),
+                    button:TextStyle(color:Colors.white),
               ),
+              
         ),
       ),
       home: MyHomePage(),
