@@ -114,6 +114,7 @@ bool _showChart = false;
 
   @override
   Widget build(BuildContext context) {
+    final isLandScape = MediaQuery.of(context).orientation == Orientation.landscape;
     final appBar = AppBar(
         title: Text(
           'Personal Expenses',
@@ -126,6 +127,10 @@ bool _showChart = false;
           ),
         ],
       );
+
+      final txListWidget = Container(
+               height:((MediaQuery.of(context).size.height-appBar.preferredSize.height- MediaQuery.of(context).padding.top) * 0.7) , 
+              child: TransactionList(_userTransactions,_deleteTransaction));
     return Scaffold(
       appBar: appBar,
       body: SingleChildScrollView(
@@ -134,7 +139,7 @@ bool _showChart = false;
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             
-            Row(
+           if(isLandScape) Row(
               mainAxisAlignment:  MainAxisAlignment.center,
               children: <Widget>[
               Text('Show Chart'),
@@ -146,12 +151,18 @@ bool _showChart = false;
               },),
             ],
             ),
-           _showChart ? Container(
-              height:((MediaQuery.of(context).size.height -appBar.preferredSize.height - MediaQuery.of(context).padding.top)* 0.7) , 
-              child: Chart(_recentTransactions)):
-            Container(
-               height:((MediaQuery.of(context).size.height-appBar.preferredSize.height- MediaQuery.of(context).padding.top) * 0.7) , 
-              child: TransactionList(_userTransactions,_deleteTransaction)),
+
+            if(!isLandScape)Container(
+              height:((MediaQuery.of(context).size.height -appBar.preferredSize.height - MediaQuery.of(context).padding.top)* 0.4) , 
+              child: Chart(_recentTransactions)),
+
+            if(!isLandScape)txListWidget,
+
+          if(isLandScape) _showChart ? Container(
+              height:((MediaQuery.of(context).size.height -appBar.preferredSize.height - MediaQuery.of(context).padding.top)* 0.6) , 
+              child: Chart(_recentTransactions))
+              :txListWidget
+            
           ],
         ),
       ),
